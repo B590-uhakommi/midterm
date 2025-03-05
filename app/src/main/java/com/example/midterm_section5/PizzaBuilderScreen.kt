@@ -1,5 +1,7 @@
 package com.example.midterm_section5
 
+import android.icu.number.NumberFormatter
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,18 +20,45 @@ import com.example.midterm_section5.model.Topping
 import com.example.midterm_section5.model.ToppingPlacement
 import com.example.midterm_section5.ui.theme.ToppingCell
 import androidx.compose.material3.Text
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.dp
+import com.example.midterm_section5.model.Pizza
 import java.util.Locale
+import  androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import com.example.midterm_section5.ui.theme.ToppingPlacementDialog
+import java.text.NumberFormat
 
+//
+//private var pizza=
+//    Pizza(
+//        toppings = mapOf(
+//            Topping.Pepperoni to ToppingPlacement.All,
+//            Topping.Pineapple to ToppingPlacement.All
+//        )
+//    )
+//    set(value) {
+//        Log.d("PizzaBuilderScreen","Reassigned pizza to $value")
+//        field=value
+//    }
+
+private var pizza by mutableStateOf(Pizza())
 @Preview
 @Composable
 fun PizzaBuilderScreen(
     modifier: Modifier=Modifier
 ){
-    Column(modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween) {
-        ToppingsList(modifier = Modifier.weight(1f,fill=true))
-        OrderButton(modifier=Modifier.fillMaxWidth().padding(10.dp))
+    var pizza by rememberSaveable { mutableStateOf(pizza) }
+    Column(modifier = modifier) {
+        ToppingsList(pizza=pizza,onEditPizza = { pizza = it},
+            modifier = modifier
+                .fillMaxWidth()
+                .weight(1f, fill = true))
+        OrderButton(pizza = pizza , modifier=Modifier
+            .fillMaxWidth()
+            .padding(10.dp))
     }
 }
 
@@ -37,18 +66,45 @@ fun PizzaBuilderScreen(
 
 @Composable
 private fun ToppingsList(
+    pizza: Pizza,
+    onEditPizza: (Pizza) -> Unit,
     modifier: Modifier = Modifier
 ) {
 //    ToppingCell(topping = Topping.Pepperoni,
 //        placement = ToppingPlacement.Left,
 //        onClickTopping = {},
 //        modifier=modifier )
+    var toppingBeingAdded by rememberSaveable { mutableStateOf<Topping?>(null
+    ) }
+   toppingBeingAdded?.let {
+       topping ->
+       ToppingPlacementDialog(
+           topping = topping,
+           onSetToppingPlacement={placement ->
+               onEditPizza(pizza.withTopping(topping,placement))
+           },
+           onDismissRequest = {
+               toppingBeingAdded = null
+           }
+       )
+   }
+
     LazyColumn(modifier = modifier) {
         items(Topping.values()) { topping ->
             ToppingCell(
                 topping = topping,
-                placement = ToppingPlacement.Left,
-                onClickTopping = { /* Handle click */ }
+                placement = pizza.toppings[topping],
+                onClickTopping = {
+//                    val isOnPizza = pizza.toppings[topping]!=null
+//                    onEditPizza( pizza.withTopping(
+//                        topping = topping,
+//                        placement = if(isOnPizza){
+//                            null
+//                        }else{
+//                            ToppingPlacement.All
+//                        }
+                  toppingBeingAdded = topping
+                }
             )
         }
     }
@@ -56,6 +112,7 @@ private fun ToppingsList(
 
 @Composable
 private fun OrderButton(
+    pizza: Pizza,
     modifier: Modifier = Modifier
 ) {
     Button(
@@ -64,8 +121,10 @@ private fun OrderButton(
     }
 ) {
 // TODO
+        val currencyFormatter = remember{ NumberFormat.getCurrencyInstance() }
+        val price = currencyFormatter.format(pizza.price)
         Text(
-            text = stringResource(R.string.place_order_button)
+            text = stringResource(R.string.place_order_button,price)
                 .toUpperCase( Locale.getDefault()) )
     }
 }

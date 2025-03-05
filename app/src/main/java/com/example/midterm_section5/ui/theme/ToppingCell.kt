@@ -54,7 +54,7 @@ public fun ToppingCell(
     ){
         Checkbox(
             checked = (placement!=null),
-            onCheckedChange = {/*TO DO*/ }
+            onCheckedChange = {onClickTopping() }
         )
 
         Column(

@@ -1,7 +1,8 @@
 <resources>
 
     <string name="app_name">practicum26</string>
-    <string name="place_order_button">Place Order</string>
+    <string name="place_order_button">Place Order (%1$s)</string>
+    <string name="placement_prompt">Where do you want %1$s on your pizza?</string>
     <string name="placement_none">None</string>
     <string name="placement_left">Left half</string>
     <string name="placement_right">Right half</string>
@@ -12,4 +13,5 @@
     <string name="topping_peppers">Peppers</string>
     <string name="topping_pepperoni">Pepperoni</string>
     <string name="topping_pineapple">Pineapple</string>
+
 </resources>
