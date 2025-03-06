@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.midterm_section5.model.Topping
 import com.example.midterm_section5.model.ToppingPlacement
+import com.example.midterm_section5.ui.AppTheme
 import com.example.midterm_section5.ui.theme.ToppingCell
 
 class MainActivity : ComponentActivity() {
@@ -13,8 +14,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-        PizzaBuilderScreen()
-
+            AppTheme {
+                PizzaBuilderScreen()
+            }
         }
     }
 
