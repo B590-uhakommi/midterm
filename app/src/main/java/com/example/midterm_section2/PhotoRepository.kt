@@ -1,6 +1,8 @@
 package com.example.midterm_section2
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Base64
 import android.util.Log
 import androidx.core.R
@@ -67,7 +69,8 @@ class PhotoRepository private constructor(
 
         val file = GitHubFile(
             message = "Add $filename",
-            content = base64Image
+            content = base64Image,
+            branch = branch
         )
 
         try {
@@ -83,6 +86,24 @@ class PhotoRepository private constructor(
     }
     fun getImageUrl(filename: String):String{
         return "http://raw.githubsercontent.com/${owner}/${repo}/${branch}/${filename}\n"
+    }
+    suspend fun fetchAndDecodeImage(filename: String): Bitmap? {
+        val path = "$filename"
+        try {
+            val response = githubApi.getFileContent(token, owner, repo, path)
+            if (response.isSuccessful) {
+                val fileResponse = response.body()
+                if (fileResponse?.encoding == "base64") {
+                    val decodedBytes = Base64.decode(fileResponse.content, Base64.DEFAULT)
+                    return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                }
+            } else {
+                Log.e("GitHub", "Error: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
     }
 
 }
