@@ -21,6 +21,7 @@
 
 ## Video Walkthrough
 
+    ![Demo GIF](./Videowalkthrough1.gif)
 
 
 ## CHALLENGES AND NOTES :
