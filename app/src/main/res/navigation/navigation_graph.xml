@@ -6,6 +6,7 @@
     android:id="@+id/navigation_graph"
     app:startDestination="@id/loginFragment">
 
+    <!-- Login Fragment -->
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.midterm_section2.LoginFragment"
@@ -16,15 +17,31 @@
             app:destination="@id/postsFragment" />
     </fragment>
 
+    <!-- Posts Fragment -->
     <fragment
         android:id="@+id/postsFragment"
         android:name="com.example.midterm_section2.PostsFragment"
         android:label="fragment_posts"
         tools:layout="@layout/fragment_posts">
-
+        <!-- Navigate to Note Fragment -->
         <action
-            android:id="@+id/to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_postsFragment_to_noteFragment"
+            app:destination="@id/noteFragment">
+            <!-- Optional argument for editing an existing note -->
+
+        </action>
+    </fragment>
+
+    <!-- Note Fragment -->
+    <fragment
+        android:id="@+id/noteFragment"
+        android:name="com.example.midterm_section2.NoteFragment"
+        android:label="Note Fragment"
+        tools:layout="@layout/fragment_note">
+        <!-- Navigate back to Posts Fragment after saving -->
+        <action
+            android:id="@+id/action_noteFragment_to_postsFragment"
+            app:destination="@id/postsFragment" />
     </fragment>
 
 </navigation>

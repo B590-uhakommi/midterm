@@ -2,6 +2,8 @@ plugins {
     kotlin("android") version "2.0.21" // Using Kotlin Android plugin
     id("com.android.application") // Android application plugin
     id("com.google.gms.google-services") // Firebase Google Services plugin
+
+
 }
 
 android {
@@ -52,7 +54,9 @@ dependencies {
     implementation(libs.androidx.activity) // Android Activity
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment)
-    implementation(libs.firebase.auth.ktx) // ConstraintLayout
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.firebase.firestore.ktx) // ConstraintLayout
 
     testImplementation(libs.junit) // JUnit testing
     androidTestImplementation(libs.androidx.junit) // Android JUnit testing
