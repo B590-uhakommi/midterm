@@ -21,7 +21,7 @@
 
 ## Video Walkthrough
 
-    ![Demo GIF](./Videowalkthrough1.gif)
+    <img src='Videowalkthrough1.gif' title='Video Walkthrough' width='50%' alt='Video Walkthrough' />
 
 
 ## CHALLENGES AND NOTES :
